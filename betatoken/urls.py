@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("Generate_Token",views.Generate_Token,name="Generate_Token"),
     path("Clean_Tokens",views.Clean_Tokens,name="Clean_Tokens"),
-    path("TokenCount",views.TokenCount,name="TokenCount")
+    path("TokenCount",views.TokenCount,name="TokenCount"),
+    path("TokenDisplay",views.TokenDisplay,name="TokenDisplay")
 ]

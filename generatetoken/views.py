@@ -3,6 +3,7 @@ from rest_framework import response
 from rest_framework.decorators import api_view
 from .models import Call_Tokens
 from .serializers import Call_Taken_Serializer
+from datetime import datetime
 
 # Create your views here.
 @api_view(['GET'])
@@ -30,6 +31,7 @@ def TokenCount(request):
         lasttoken = Call_Tokens.objects.filter(call_status = False).first()
         token = Call_Tokens.objects.get(id = lasttoken.id)
         token.call_status = True
+        token.call_time = datetime.now()
         token.save()
         print(token.tokens,"0==========================")
         serializer = Call_Taken_Serializer(token,many=False)
@@ -37,5 +39,12 @@ def TokenCount(request):
     except:
         # return response.Response("No more tokens")
         return redirect('Generate_Token')
+
+@api_view(["GET"])
+def TokenDisplay(request):
+    lasttokens = Call_Tokens.objects.filter(call_status = True).order_by("-call_time")[:5]
+    serializer = Call_Taken_Serializer(lasttokens,many=True)
+    return response.Response(serializer.data)
+    
         
     
